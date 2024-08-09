@@ -1,21 +1,21 @@
-import {
-  StatusBar,
-  Text,
-  Touchable,
-  TouchableOpacity,
-  View,
-  Switch,
-} from "react-native";
+import { StatusBar, Text, TouchableOpacity, View } from "react-native";
+
 import { passwordStrength } from "check-password-strength";
 import PasswordOutput from "@/components/PasswordOutput";
 import SecurityLevelBar from "@/components/SecurityLevelBar";
-import Slider from "@react-native-community/slider";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect, useState } from "react";
 import PasswordOptionSwitch from "@/components/PasswordOptionSwitch";
+import PasswordOptionBar from "@/components/PasswordOptionBar";
 
 export default function Index() {
+  const [password, setPassword] = useState("");
+  const [passwordLength, setPasswordLength] = useState(10);
+  const [containsLowercase, setContainsLowercase] = useState(false);
+  const [containsNumbers, setContainsNumbers] = useState(false);
+  const [containsSymbols, setContainsSymbols] = useState(false);
+
   const [loaded, error] = useFonts({
     WorkSans: require("../assets/fonts/WorkSans.ttf"),
     RobotoMono: require("../assets/fonts/RobotoMono.ttf"),
@@ -41,16 +41,8 @@ export default function Index() {
           <SecurityLevelBar />
 
           <View>
-            <PasswordOptionSwitch>Password Lenght</PasswordOptionSwitch>
-            {/* <Slider
-              style={{ height: 40 }}
-              minimumValue={0}
-              maximumValue={20}
-              minimumTrackTintColor="#FFFFFF"
-              maximumTrackTintColor="#000000"
-            /> */}
+            <PasswordOptionBar>Password Lenght</PasswordOptionBar>
             <PasswordOptionSwitch>Contains Lowercase</PasswordOptionSwitch>
-
             <PasswordOptionSwitch>Contains Numbers</PasswordOptionSwitch>
             <PasswordOptionSwitch>Contains Symbols</PasswordOptionSwitch>
           </View>
