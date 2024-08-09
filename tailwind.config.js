@@ -2,7 +2,12 @@
 module.exports = {
   content: ["**/*.ts", "**/*.tsx"],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        WorkSans: ["WorkSans"],
+        RobotoMono: ["RobotoMono"],
+      },
+    },
   },
   plugins: [],
 };
