@@ -11,10 +11,21 @@ import PasswordOptionBar from "@/components/PasswordOptionBar";
 
 export default function Index() {
   const [password, setPassword] = useState("");
+
   const [passwordLength, setPasswordLength] = useState(10);
+  const passwordLenghtHandler = (lenght: number) => setPasswordLength(lenght);
+
   const [containsLowercase, setContainsLowercase] = useState(false);
+  const containsLowercaseHandler = () =>
+    setContainsLowercase((previousState) => !previousState);
+
   const [containsNumbers, setContainsNumbers] = useState(false);
+  const containsNumbersHandler = () =>
+    setContainsNumbers((previousState) => !previousState);
+
   const [containsSymbols, setContainsSymbols] = useState(false);
+  const containsSymbolsHandler = () =>
+    setContainsSymbols((previousState) => !previousState);
 
   const [loaded, error] = useFonts({
     WorkSans: require("../assets/fonts/WorkSans.ttf"),
@@ -41,10 +52,30 @@ export default function Index() {
           <SecurityLevelBar />
 
           <View>
-            <PasswordOptionBar>Password Lenght</PasswordOptionBar>
-            <PasswordOptionSwitch>Contains Lowercase</PasswordOptionSwitch>
-            <PasswordOptionSwitch>Contains Numbers</PasswordOptionSwitch>
-            <PasswordOptionSwitch>Contains Symbols</PasswordOptionSwitch>
+            <PasswordOptionBar
+              onChange={passwordLenghtHandler}
+              value={passwordLength}
+            >
+              Password Lenght
+            </PasswordOptionBar>
+            <PasswordOptionSwitch
+              onChange={containsLowercaseHandler}
+              value={containsLowercase}
+            >
+              Contains Lowercase
+            </PasswordOptionSwitch>
+            <PasswordOptionSwitch
+              onChange={containsNumbersHandler}
+              value={containsNumbers}
+            >
+              Contains Numbers
+            </PasswordOptionSwitch>
+            <PasswordOptionSwitch
+              onChange={containsSymbolsHandler}
+              value={containsSymbols}
+            >
+              Contains Symbols
+            </PasswordOptionSwitch>
           </View>
 
           <TouchableOpacity className="bg-black h-10 rounded-lg items-center justify-center">

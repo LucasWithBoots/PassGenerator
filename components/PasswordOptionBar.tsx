@@ -1,8 +1,9 @@
 import Slider from "@react-native-community/slider";
 import TextOption from "./TextOption";
 import { View } from "react-native";
+import { useState } from "react";
 
-export default function PasswordOptionBar({ children }: any) {
+export default function PasswordOptionBar(props: any) {
   return (
     <View>
       <Slider
@@ -11,8 +12,10 @@ export default function PasswordOptionBar({ children }: any) {
         maximumValue={20}
         minimumTrackTintColor="#FFFFFF"
         maximumTrackTintColor="#000000"
+        value={props.value}
+        onValueChange={props.onChange}
       />
-      <TextOption>{children}</TextOption>
+      <TextOption>{props.children}</TextOption>
     </View>
   );
 }
