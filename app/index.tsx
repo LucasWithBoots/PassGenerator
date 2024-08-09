@@ -1,6 +1,4 @@
 import { StatusBar, Text, TouchableOpacity, View } from "react-native";
-
-import { passwordStrength } from "check-password-strength";
 import PasswordOutput from "@/components/PasswordOutput";
 import SecurityLevelBar from "@/components/SecurityLevelBar";
 import { useFonts } from "expo-font";
@@ -9,8 +7,11 @@ import { useEffect, useState } from "react";
 import PasswordOptionSwitch from "@/components/PasswordOptionSwitch";
 import PasswordOptionBar from "@/components/PasswordOptionBar";
 
+import { passwordStrength } from "check-password-strength";
+import randomstring from "randomstring";
+
 export default function Index() {
-  const [password, setPassword] = useState("");
+  const [password, setPassword] = useState("pHgx3l72h5^b3|w>d@");
 
   const [passwordLength, setPasswordLength] = useState(10);
   const passwordLenghtHandler = (lenght: number) => setPasswordLength(lenght);
@@ -32,32 +33,61 @@ export default function Index() {
     RobotoMono: require("../assets/fonts/RobotoMono.ttf"),
   });
 
+  const [passwordStrenght, setPasswordStrenght] = useState("");
+
   useEffect(() => {
     if (loaded || error) {
       SplashScreen.hideAsync();
     }
   }, [loaded, error]);
 
+  useEffect(() => {
+    setPasswordStrenght(passwordStrength(password).value);
+  });
+
   if (!loaded && !error) {
     return null;
+  }
+
+  function generateNewPassword(
+    lenght: number,
+    lowercase: boolean,
+    numbers: boolean,
+    symbols: boolean
+  ) {
+    const newPass = randomstring.generate({
+      length: lenght,
+      charset: [
+        numbers ? "alphanumeric" : "alphabetic",
+        symbols ? "@!#$%^>|:" : "",
+      ],
+      capitalization: lowercase ? undefined : "uppercase",
+    });
+
+    setPassword(newPass);
+    setPasswordStrenght(passwordStrength(newPass).value);
   }
 
   return (
     <>
       <StatusBar backgroundColor={"#fed7aa"} />
       <View className="flex-1 items-center justify-center bg-orange-200">
-        <View className="bg-green-200 w-80 h-80 border-4 rounded-lg z-20 p-4">
-          <PasswordOutput>teste</PasswordOutput>
-
-          <SecurityLevelBar />
-
+        <View className="bg-green-200 w-80 h-96 border-4 rounded-lg z-20 p-4 flex-col justify-between">
           <View>
-            <PasswordOptionBar
-              onChange={passwordLenghtHandler}
-              value={passwordLength}
-            >
-              Password Lenght
-            </PasswordOptionBar>
+            <PasswordOutput>{password}</PasswordOutput>
+            <SecurityLevelBar passwordStrenght={passwordStrenght} />
+          </View>
+
+          <View className="h-48 flex-col justify-between">
+            <View>
+              <PasswordOptionBar
+                onChange={passwordLenghtHandler}
+                value={passwordLength}
+              >
+                Password Lenght
+              </PasswordOptionBar>
+            </View>
+
             <PasswordOptionSwitch
               onChange={containsLowercaseHandler}
               value={containsLowercase}
@@ -78,7 +108,17 @@ export default function Index() {
             </PasswordOptionSwitch>
           </View>
 
-          <TouchableOpacity className="bg-black h-10 rounded-lg items-center justify-center">
+          <TouchableOpacity
+            onPress={() =>
+              generateNewPassword(
+                passwordLength,
+                containsLowercase,
+                containsNumbers,
+                containsSymbols
+              )
+            }
+            className="bg-black h-10 rounded-lg items-center justify-center"
+          >
             <Text className="text-white">Generate New</Text>
           </TouchableOpacity>
         </View>
@@ -88,5 +128,3 @@ export default function Index() {
     </>
   );
 }
-
-// console.log(passwordStrength("5E£?930vt£V<").value);
