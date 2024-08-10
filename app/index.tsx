@@ -1,4 +1,10 @@
-import { StatusBar, Text, TouchableOpacity, View } from "react-native";
+import {
+  ImageBackground,
+  StatusBar,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import PasswordOutput from "@/components/PasswordOutput";
 import SecurityLevelBar from "@/components/SecurityLevelBar";
 import { useFonts } from "expo-font";
@@ -53,7 +59,7 @@ export default function Index() {
     lenght: number,
     lowercase: boolean,
     numbers: boolean,
-    symbols: boolean,
+    symbols: boolean
   ) {
     const newPass = randomstring.generate({
       length: lenght,
@@ -70,61 +76,65 @@ export default function Index() {
 
   return (
     <>
-      <StatusBar backgroundColor={"#fed7aa"} />
-      <View className="flex-1 items-center justify-center bg-orange-200">
-        <View className="bg-green-200 w-80 h-96 border-4 rounded-lg z-20 p-4 flex-col justify-between">
-          <View>
-            <PasswordOutput>{password}</PasswordOutput>
-            <SecurityLevelBar passwordStrenght={passwordStrenght} />
-          </View>
-
-          <View className="h-48 flex-col justify-between">
+      <StatusBar backgroundColor="black" />
+      <ImageBackground
+        className="flex-1"
+        source={require("../assets/images/background-image.jpg")}
+        blurRadius={5}
+      >
+        <View className="flex-1 items-center justify-center">
+          <View className="bg-white/20 border border-white/30 rounded-lg shadow-lg w-80 h-96 z-20 p-4 flex-col justify-between">
             <View>
-              <PasswordOptionBar
-                onChange={passwordLenghtHandler}
-                value={passwordLength}
-              >
-                Password Lenght
-              </PasswordOptionBar>
+              <PasswordOutput>{password}</PasswordOutput>
+              <SecurityLevelBar passwordStrenght={passwordStrenght} />
             </View>
 
-            <PasswordOptionSwitch
-              onChange={containsLowercaseHandler}
-              value={containsLowercase}
+            <View className="h-48 flex-col justify-between">
+              <View>
+                <PasswordOptionBar
+                  onChange={passwordLenghtHandler}
+                  value={passwordLength}
+                >
+                  Password Lenght
+                </PasswordOptionBar>
+              </View>
+
+              <PasswordOptionSwitch
+                onChange={containsLowercaseHandler}
+                value={containsLowercase}
+              >
+                Contains Lowercase
+              </PasswordOptionSwitch>
+              <PasswordOptionSwitch
+                onChange={containsNumbersHandler}
+                value={containsNumbers}
+              >
+                Contains Numbers
+              </PasswordOptionSwitch>
+              <PasswordOptionSwitch
+                onChange={containsSymbolsHandler}
+                value={containsSymbols}
+              >
+                Contains Symbols
+              </PasswordOptionSwitch>
+            </View>
+
+            <TouchableOpacity
+              onPress={() =>
+                generateNewPassword(
+                  passwordLength,
+                  containsLowercase,
+                  containsNumbers,
+                  containsSymbols
+                )
+              }
+              className="bg-black h-10 rounded-lg items-center justify-center"
             >
-              Contains Lowercase
-            </PasswordOptionSwitch>
-            <PasswordOptionSwitch
-              onChange={containsNumbersHandler}
-              value={containsNumbers}
-            >
-              Contains Numbers
-            </PasswordOptionSwitch>
-            <PasswordOptionSwitch
-              onChange={containsSymbolsHandler}
-              value={containsSymbols}
-            >
-              Contains Symbols
-            </PasswordOptionSwitch>
+              <Text className="text-white">Generate New</Text>
+            </TouchableOpacity>
           </View>
-
-          <TouchableOpacity
-            onPress={() =>
-              generateNewPassword(
-                passwordLength,
-                containsLowercase,
-                containsNumbers,
-                containsSymbols,
-              )
-            }
-            className="bg-black h-10 rounded-lg items-center justify-center"
-          >
-            <Text className="text-white">Generate New</Text>
-          </TouchableOpacity>
         </View>
-
-        <View className="bg-orange-200 w-80 h-80 border-4 rounded-lg z-10 absolute bottom-60 left-16"></View>
-      </View>
+      </ImageBackground>
     </>
   );
 }

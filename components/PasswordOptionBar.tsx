@@ -5,7 +5,11 @@ import { View, Text } from "react-native";
 export default function PasswordOptionBar(props: any) {
   return (
     <View>
-      <TextOption>{props.children}</TextOption>
+      <View className="flex-row justify-between items-center mr-3">
+        <TextOption>{props.children}</TextOption>
+        <TextOption>{props.value}</TextOption>
+      </View>
+
       <View>
         <Slider
           style={{ height: 40 }}
@@ -15,6 +19,7 @@ export default function PasswordOptionBar(props: any) {
           maximumTrackTintColor="#000000"
           value={props.value}
           onValueChange={props.onChange}
+          step={1}
         />
       </View>
     </View>
