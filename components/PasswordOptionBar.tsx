@@ -1,6 +1,6 @@
 import Slider from "@react-native-community/slider";
 import TextOption from "./TextOption";
-import { View, Text } from "react-native";
+import { View } from "react-native";
 
 export default function PasswordOptionBar(props: any) {
   return (

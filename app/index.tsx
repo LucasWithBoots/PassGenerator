@@ -13,24 +13,24 @@ import { useEffect, useState } from "react";
 import PasswordOptionSwitch from "@/components/PasswordOptionSwitch";
 import PasswordOptionBar from "@/components/PasswordOptionBar";
 
-import { passwordStrength } from "check-password-strength";
 import randomstring from "randomstring";
+import stringEntropy from "fast-password-entropy";
 
 export default function Index() {
-  const [password, setPassword] = useState("pHgx3l72h5^b3|w>d@");
+  const [password, setPassword] = useState<string>("pHgx3l72h5^b3|w>d@");
 
-  const [passwordLength, setPasswordLength] = useState(10);
+  const [passwordLength, setPasswordLength] = useState<number>(15);
   const passwordLenghtHandler = (lenght: number) => setPasswordLength(lenght);
 
-  const [containsLowercase, setContainsLowercase] = useState(false);
+  const [containsLowercase, setContainsLowercase] = useState<boolean>(true);
   const containsLowercaseHandler = () =>
     setContainsLowercase((previousState) => !previousState);
 
-  const [containsNumbers, setContainsNumbers] = useState(false);
+  const [containsNumbers, setContainsNumbers] = useState<boolean>(true);
   const containsNumbersHandler = () =>
     setContainsNumbers((previousState) => !previousState);
 
-  const [containsSymbols, setContainsSymbols] = useState(false);
+  const [containsSymbols, setContainsSymbols] = useState<boolean>(true);
   const containsSymbolsHandler = () =>
     setContainsSymbols((previousState) => !previousState);
 
@@ -39,7 +39,7 @@ export default function Index() {
     RobotoMono: require("../assets/fonts/RobotoMono.ttf"),
   });
 
-  const [passwordStrenght, setPasswordStrenght] = useState("");
+  const [passwordStrenght, setPasswordStrenght] = useState<number>(0);
 
   useEffect(() => {
     if (loaded || error) {
@@ -48,7 +48,7 @@ export default function Index() {
   }, [loaded, error]);
 
   useEffect(() => {
-    setPasswordStrenght(passwordStrength(password).value);
+    setPasswordStrenght(stringEntropy(password));
   });
 
   if (!loaded && !error) {
@@ -71,7 +71,7 @@ export default function Index() {
     });
 
     setPassword(newPass);
-    setPasswordStrenght(passwordStrength(newPass).value);
+    setPasswordStrenght(stringEntropy(newPass));
   }
 
   return (
