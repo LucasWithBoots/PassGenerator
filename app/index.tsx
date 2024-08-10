@@ -59,7 +59,7 @@ export default function Index() {
     lenght: number,
     lowercase: boolean,
     numbers: boolean,
-    symbols: boolean
+    symbols: boolean,
   ) {
     const newPass = randomstring.generate({
       length: lenght,
@@ -125,7 +125,7 @@ export default function Index() {
                   passwordLength,
                   containsLowercase,
                   containsNumbers,
-                  containsSymbols
+                  containsSymbols,
                 )
               }
               className="bg-black h-10 rounded-lg items-center justify-center"
